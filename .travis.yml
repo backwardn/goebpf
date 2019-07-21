@@ -19,7 +19,7 @@ script:
   # Verify for  .c/.h formatting issues
   - |
     export CLANG_FORMAT_CMD=( git-clang-format --style="{BasedOnStyle: Google, IndentWidth: 2}" --extensions=c,cpp,h );
-    "${CLANG_FORMAT_CMD[@]}" --diff | egrep "^no modified files to format$" &> /dev/null
+    ${CLANG_FORMAT_CMD[@]} --diff | egrep "^no modified files to format$" &> /dev/null
   - |
     if [ $? -ne 0 ]; then
       "${CLANG_FORMAT_CMD[@]}" --diff;
