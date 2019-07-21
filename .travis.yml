@@ -18,14 +18,11 @@ script:
   - if [ -n "$(gofmt -l .)" ]; then echo "Please fix source formatting by 'go fmt ./...'"; false; fi
   # Verify for  .c/.h formatting issues
   - |
-    export CLANG_FORMAT_CMD=( git-clang-format --style="{BasedOnStyle: Google, IndentWidth: 2}" --extensions=c,cpp,h );
-    ${CLANG_FORMAT_CMD[@]} --diff | egrep "^no modified files to format$" &> /dev/null
-  - |
+    git-clang-format --style="{BasedOnStyle: Google, IndentWidth: 2}" --extensions=c,cpp,h --diff | egrep "^no modified files to format$" &> /dev/null
     if [ $? -ne 0 ]; then
-      "${CLANG_FORMAT_CMD[@]}" --diff;
+      git-clang-format --style="{BasedOnStyle: Google, IndentWidth: 2}" --extensions=c,cpp,h --diff;
       echo -e "\n\nclang-format failed. Please apt-get install clang-format and format source by:\n";
-      printf '%q ' "${CLANG_FORMAT_CMD[@]}";
-      echo -e "HEAD~\n";
+      echo -e "git-clang-format --style="{BasedOnStyle: Google, IndentWidth: 2}" --extensions=c,cpp,h HEAD~\n"
       exit 1;
     fi
   # Run unit tests
